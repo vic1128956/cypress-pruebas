@@ -1,8 +1,9 @@
-name: Cypress Tests
+name: Cypress Tests (CI)
 
 on:
   push:
     branches: ["main"]
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -10,14 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
-      - run: npm install
+      - name: Instalar dependencias
+        run: npm install
 
-      - uses: cypress-io/github-action@v5
+      - name: Ejecutar pruebas de Cypress
+        run: npx cypress run
+
+      - name: Guardar videos y screenshots
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          browser: chrome
+          name: cypress-results
+          path: |
+            cypress/videos
+            cypress/screenshots
