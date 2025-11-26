@@ -7,3 +7,4 @@ describe("Probando la página de Cypress.", () => {
 });
 
 // probando pipeline otra vez
+// Simulación de otro dev modificando algo
