@@ -14,7 +14,7 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Instalar Node.js
+      - name: Usar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -22,14 +22,11 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Instalar binario de Cypress
-        run: npx cypress install
-
-      - name: Dar permisos a Cypress
-        run: chmod +x node_modules/.bin/cypress
-
-      - name: Ejecutar pruebas de Cypress
-        run: npx cypress run
+      - name: Ejecutar tests de Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          headless: true
 
       - name: Guardar videos y screenshots
         if: always()
